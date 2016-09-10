@@ -17,7 +17,7 @@
 
     <section class="main-content">
 <h3>
-    <a id="welcome-to-github-pages" class="anchor" href="#what" aria-hidden="true">
+    <a id="what" class="anchor" href="#what" aria-hidden="true">
         <span aria-hidden="true" class="octicon octicon-link">What is a voronoi split screen system?</span>
     </a>
 </h3>
@@ -63,6 +63,16 @@ So we can dial 'a' to be the max distance we want our nodes to be from the cente
     </a>
 </h3>
 
+<p>Now we need to actually split the screen. Without going into too much detail, I made in unreal shader that, for each pixel, checks to see which player it is closer to, and renders that player's view. This is a simplified version of it where [x1, y1], [x2, y2] are the coordinates of the nodes in screen-space.</p>
+
+<img src="images/material_no_line.PNG">
+
+<p>The result is then rendered onto the screen, which gives this lovely result:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Two player voronoi split screen is working!<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/indiedev?src=hash">#indiedev</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/LuN0ThUVVJ">pic.twitter.com/LuN0ThUVVJ</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/752683478009851904">July 12, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
 <h3>
     <a id="line" class="anchor" href="#line" aria-hidden="true">
         <span aria-hidden="true" class="octicon octicon-link">Dividing Line Thickness and Damping</span>
@@ -81,10 +91,9 @@ So we can dial 'a' to be the max distance we want our nodes to be from the cente
     </a>
 </h3>
 
-<p>basic</p>
+<p>I skipped over some implementation details, but if you're curious you can check out the full project in the <a href="#">Unreal Engine Marketplace</a> or on <a href="#">itch.io.</a></p>
 
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Two player voronoi split screen is working!<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/indiedev?src=hash">#indiedev</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/LuN0ThUVVJ">pic.twitter.com/LuN0ThUVVJ</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/752683478009851904">July 12, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <p>basic with line</p>
 
