@@ -42,17 +42,17 @@
 
 <img src="images/player_to_node.png">
 
-<p>Where 'x' is the distance from the 'M' midpoint between the two characters, to one of the players.
-And 'y' is the distance from the center of the screen to the node.</p>
+<p>Where <code>x</code> is the distance from the <code>M</code> midpoint between the two characters, to one of the players.
+And <code>y</code> is the distance from the center of the screen to the node.</p>
 
 <p>We will keep the angle the same, and so we'll only deal with distance.
 We need to keep the node on the screen, so we need to translate a distance (which could go to infinite) to a finite range, and we want to get there gradually. The following function should do the job:</p>
 
 <img src="images/atan_graph.gif">
 
-<p>We can dial 'a' up and down to change the curve amount, and this will get us to <b>the perfect range, 0 to 1</b>.
-That range is perfect because we can simply multiply 'y' by a constant, and now our function goes from 0 to that constant.
-So we can dial 'a' to be the max distance we want our nodes to be from the center of the screen, and our nodes will gradually get further apart as the players move apart, but well never go off the screen.</p>
+<p>We can dial <code>a</code> up and down to change the curve amount, and this will get us to <b>the perfect range, 0 to 1</b>.
+That range is perfect because we can simply multiply <code>y</code> by a constant, and now our function goes from 0 to that constant.
+So we can dial <code>a</code> to be the max distance we want our nodes to be from the center of the screen, and our nodes will gradually get further apart as the players move apart, but well never go off the screen.</p>
 
 <p>With this, we have translated the two players' positions from player-space to node-space.</p>
 
@@ -63,11 +63,13 @@ So we can dial 'a' to be the max distance we want our nodes to be from the cente
     </a>
 </h3>
 
-<p>Now we need to actually split the screen. Without going into too much detail, I made in unreal shader that, for each pixel, checks to see which player it is closer to, and renders that player's view. This is a simplified version of it where [x1, y1], [x2, y2] are the coordinates of the nodes in screen-space.</p>
+<p>Now we need to actually split the screen.</p>
+
+<p>Without going into too much detail, I made in unreal shader that, for each pixel, checks to see which player it is closer to, and renders that player's view. This is a simplified version of it where [x1, y1], [x2, y2] are the coordinates of the nodes in screen-space.</p>
 
 <img src="images/material_no_line.PNG">
 
-<p>The result is then rendered onto the screen, which gives this lovely result:</p>
+<p>This is then rendered onto the screen, which gives the lovely result:</p>
 
 <blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Two player voronoi split screen is working!<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/indiedev?src=hash">#indiedev</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/LuN0ThUVVJ">pic.twitter.com/LuN0ThUVVJ</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/752683478009851904">July 12, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -79,11 +81,37 @@ So we can dial 'a' to be the max distance we want our nodes to be from the cente
     </a>
 </h3>
 
+<p>This is wonderful! But we still need to separate the screens with a line, as it's a bit tough to tell what's going on. Let's add a line in between, and let's vary the thickness based on the distance between the nodes.</p>
+
+<p>To draw a black line, we simply calculate which view to draw based on the distance from the present node to a point that is one line-thickness closer than the other node. The space not drawn by either view is drawn as black, which becomes the line:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Variable-width dividing line for the voronoi split-screen.<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a><br>An information-packed line :) <a href="https://t.co/JgDcpMvBHl">pic.twitter.com/JgDcpMvBHl</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/755989078147936256">July 21, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Instead of putting the distance between nodes straight into the shader, we can modify how quickly the line expands by putting that distance through this function:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/MattWoelk">@MattWoelk</a> Added a damping parameter to line thickness so that it grows more gradually. <a href="https://t.co/czikFulxf0">pic.twitter.com/czikFulxf0</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773743376512364544">September 8, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Which give us this result:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Variable-width dividing line for the voronoi split-screen.<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a><br>An information-packed line :) <a href="https://t.co/JgDcpMvBHl">pic.twitter.com/JgDcpMvBHl</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/755989078147936256">July 21, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
 <h3>
     <a id="merging" class="anchor" href="#merging" aria-hidden="true">
         <span aria-hidden="true" class="octicon octicon-link">The Deadzone: Screen Merging</span>
     </a>
 </h3>
+
+<p>The last step is to get the views to merge together.</p>
+
+<p>What we can do is instead of putting the distance of the players straight into the shader, we can put it through a function that has a buffer zone, so it stays at 0 for a given time, and then scales as normal. You're probably seeing the pattern by now: find the simplest function that will do what you need, and then pass it through other functions to change its behaviour. Here's how that looks:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/MattWoelk">@MattWoelk</a> Added a damping parameter to line thickness so that it grows more gradually. <a href="https://t.co/czikFulxf0">pic.twitter.com/czikFulxf0</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773743376512364544">September 8, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 <h3>
     <a id="buy" class="anchor" href="#buy" aria-hidden="true">
@@ -94,11 +122,6 @@ So we can dial 'a' to be the max distance we want our nodes to be from the cente
 <p>I skipped over some implementation details, but if you're curious you can check out the full project in the <a href="#">Unreal Engine Marketplace</a> or on <a href="#">itch.io.</a></p>
 
 
-
-<p>basic with line</p>
-
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Variable-width dividing line for the voronoi split-screen.<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a><br>An information-packed line :) <a href="https://t.co/JgDcpMvBHl">pic.twitter.com/JgDcpMvBHl</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/755989078147936256">July 21, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>sticky 100%</p>
 
@@ -116,27 +139,6 @@ So we can dial 'a' to be the max distance we want our nodes to be from the cente
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
-
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
-
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can @mention a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/MattWoelk/voronoi_split_screen_notes">Voronoi split screen notes</a> is maintained by <a href="https://github.com/MattWoelk">MattWoelk</a>.</span>
