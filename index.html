@@ -57,7 +57,7 @@ We need to keep the node on the screen, so we need to translate a distance (whic
 That range is perfect because we can simply multiply <code>y</code> by a constant, and now our function goes from 0 to that constant.
 So we can dial <code>a</code> to be the max distance we want our nodes to be from the center of the screen, and our nodes will gradually get further apart as the players move apart, but well never go off the screen.</p>
 
-<p>With this, we have translated the two players' positions from player-space to node-space.</p>
+<p>With this, we have translated the two players' positions from player-space to screen-space.</p>
 
 
 <h3>
@@ -72,7 +72,7 @@ So we can dial <code>a</code> to be the max distance we want our nodes to be fro
 
 <img src="images/material_no_line.PNG">
 
-<p>This is then rendered onto the screen, which gives the lovely result:</p>
+<p>This is then rendered onto the screen, which gives this lovely result:</p>
 
 <blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Two player voronoi split screen is working!<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/indiedev?src=hash">#indiedev</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/LuN0ThUVVJ">pic.twitter.com/LuN0ThUVVJ</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/752683478009851904">July 12, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -107,17 +107,18 @@ So we can dial <code>a</code> to be the max distance we want our nodes to be fro
 
 <p>The last step is to get the views to merge together.</p>
 
-<p>Instead of putting the distance of the players straight into the shader, we can put it through a function that has a buffer zone, so it stays at 0 for a given time, and then scales as normal. You're probably seeing the pattern by now: find the simplest function that will do what you need, and then pass it through other functions ("compose" functions) to change its behaviour. Here's how this dead-zone function looks:</p>
+<p>Instead of putting the distance of the players straight into the shader, we can put it through a function that has a buffer zone, so it stays at 0 for a given time, and then scales as normal. You're probably seeing the pattern by now: find the simplest function that will do what you need, and then pass it through other functions ("compose" functions) to change its behaviour. Here's how this dead zone function looks:</p>
 
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/MattWoelk">@MattWoelk</a> Added a damping parameter to line thickness so that it grows more gradually. <a href="https://t.co/czikFulxf0">pic.twitter.com/czikFulxf0</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773743376512364544">September 8, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<img src="deadzone_graph.PNG">
 
-<p>If you run this comparison component-wise (<code>x</code> by itself, and then <code>y</code> by itself) then you get a line that sticks at horizontal and vertical when it's close:</p>
+<p>The black line is the original function, the blue line is the dead zone function, and the red line is the result. <code>a</code> changes the size of the dead zone.</p>
+
+<p>If you run this comparison componentwise (<code>x</code> by itself, and then <code>y</code> by itself) then you get a line that sticks at horizontal and vertical when it's close:</p>
 
 <blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Let&#39;s go explore!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/8r6txxJU1D">pic.twitter.com/8r6txxJU1D</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/772159198486409216">September 3, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>And if you compare using vectors you get a smooth transition, like we had before implementing a dead-zone:</p>
+<p>And if you compare using vectors you get a smooth transition, like we had before implementing a dead zone:</p>
 
 <blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">You can always find your way back to me. <a href="https://t.co/6ZlhnFSnLB">pic.twitter.com/6ZlhnFSnLB</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773742350073860096">September 8, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
