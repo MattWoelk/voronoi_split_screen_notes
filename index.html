@@ -109,7 +109,7 @@ So we can dial <code>a</code> to be the max distance we want our nodes to be fro
 
 <p>Instead of putting the distance of the players straight into the shader, we can put it through a function that has a buffer zone, so it stays at 0 for a given time, and then scales as normal. You're probably seeing the pattern by now: find the simplest function that will do what you need, and then pass it through other functions ("compose" functions) to change its behaviour. Here's how this dead zone function looks:</p>
 
-<img src="deadzone_graph.PNG">
+<img src="images/deadzone_graph.PNG">
 
 <p>The black line is the original function, the blue line is the dead zone function, and the red line is the result. <code>a</code> changes the size of the dead zone.</p>
 
