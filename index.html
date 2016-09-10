@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Voronoi split screen notes by MattWoelk</title>
+    <title>Voronoi Split Screen: A Quick Tour by MattWoelk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,14 +11,17 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Voronoi split screen notes</h1>
-      <h2 class="project-tagline"></h2>
+      <h1 class="project-name">Voronoi split screen</h1>
+      <h2 class="project-tagline">A Quick Tour</h2>
     </section>
 
     <section class="main-content">
+
+
+
 <h3>
     <a id="what" class="anchor" href="#what" aria-hidden="true">
-        <span aria-hidden="true" class="octicon octicon-link">What is a voronoi split screen system?</span>
+        <span aria-hidden="true" class="octicon octicon-link">What A Voronoi Split Screen System Is</span>
     </a>
 </h3>
 
@@ -93,10 +96,7 @@ So we can dial <code>a</code> to be the max distance we want our nodes to be fro
 <blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/MattWoelk">@MattWoelk</a> Added a damping parameter to line thickness so that it grows more gradually. <a href="https://t.co/czikFulxf0">pic.twitter.com/czikFulxf0</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773743376512364544">September 8, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>Which give us this result:</p>
-
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Variable-width dividing line for the voronoi split-screen.<a href="https://twitter.com/UnrealEngine">@UnrealEngine</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a><br>An information-packed line :) <a href="https://t.co/JgDcpMvBHl">pic.twitter.com/JgDcpMvBHl</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/755989078147936256">July 21, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>With this damping function, the line will grow more gradually, which will give information about the distance of the characters at even further distances rather than expanding so quickly. (As I write this, I realize this function could probably have stood in for the arctan one above, which could simplify things a bit.)</p>
 
 
 <h3>
@@ -107,36 +107,29 @@ So we can dial <code>a</code> to be the max distance we want our nodes to be fro
 
 <p>The last step is to get the views to merge together.</p>
 
-<p>What we can do is instead of putting the distance of the players straight into the shader, we can put it through a function that has a buffer zone, so it stays at 0 for a given time, and then scales as normal. You're probably seeing the pattern by now: find the simplest function that will do what you need, and then pass it through other functions to change its behaviour. Here's how that looks:</p>
+<p>Instead of putting the distance of the players straight into the shader, we can put it through a function that has a buffer zone, so it stays at 0 for a given time, and then scales as normal. You're probably seeing the pattern by now: find the simplest function that will do what you need, and then pass it through other functions ("compose" functions) to change its behaviour. Here's how this dead-zone function looks:</p>
 
 <blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/MattWoelk">@MattWoelk</a> Added a damping parameter to line thickness so that it grows more gradually. <a href="https://t.co/czikFulxf0">pic.twitter.com/czikFulxf0</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773743376512364544">September 8, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>If you run this comparison component-wise (<code>x</code> by itself, and then <code>y</code> by itself) then you get a line that sticks at horizontal and vertical when it's close:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Let&#39;s go explore!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/8r6txxJU1D">pic.twitter.com/8r6txxJU1D</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/772159198486409216">September 3, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>And if you compare using vectors you get a smooth transition, like we had before implementing a dead-zone:</p>
+
+<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">You can always find your way back to me. <a href="https://t.co/6ZlhnFSnLB">pic.twitter.com/6ZlhnFSnLB</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773742350073860096">September 8, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <h3>
     <a id="buy" class="anchor" href="#buy" aria-hidden="true">
-        <span aria-hidden="true" class="octicon octicon-link">Go Buy It!</span>
+        <span aria-hidden="true" class="octicon octicon-link">Go Buy It! :D</span>
     </a>
 </h3>
 
-<p>I skipped over some implementation details, but if you're curious you can check out the full project in the <a href="#">Unreal Engine Marketplace</a> or on <a href="#">itch.io.</a></p>
-
-
-
-<p>sticky 100%</p>
-
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">Let&#39;s go explore!<a href="https://twitter.com/hashtag/screenshotsaturday?src=hash">#screenshotsaturday</a> <a href="https://twitter.com/hashtag/UE4?src=hash">#UE4</a> <a href="https://twitter.com/hashtag/gamedev?src=hash">#gamedev</a> <a href="https://t.co/8r6txxJU1D">pic.twitter.com/8r6txxJU1D</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/772159198486409216">September 3, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<p>smooth 100%</p>
-
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr">You can always find your way back to me. <a href="https://t.co/6ZlhnFSnLB">pic.twitter.com/6ZlhnFSnLB</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773742350073860096">September 8, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<p>line damping graph</p>
-
-<blockquote class="twitter-video" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/MattWoelk">@MattWoelk</a> Added a damping parameter to line thickness so that it grows more gradually. <a href="https://t.co/czikFulxf0">pic.twitter.com/czikFulxf0</a></p>&mdash; Matt Woelk (@MattWoelk) <a href="https://twitter.com/MattWoelk/status/773743376512364544">September 8, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>I skipped over some implementation details, but if you're curious you can buy the full project in the <a href="#">Unreal Engine Marketplace</a> or on <a href="#">itch.io.</a></p>
 
 
 
