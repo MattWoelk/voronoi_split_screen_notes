@@ -50,8 +50,11 @@ We need to keep the node on the screen, so we need to translate a distance (whic
 
 <img src="images/atan_graph.gif">
 
-<p>We can dial 'a' up and down to change the curve, and this will get us to <b>the perfect range, 0 to 1</b>.
-That range is perfect because we can simply multiply 'y' by a constant, and now our function goes from 0 to that constant.</p>
+<p>We can dial 'a' up and down to change the curve amount, and this will get us to <b>the perfect range, 0 to 1</b>.
+That range is perfect because we can simply multiply 'y' by a constant, and now our function goes from 0 to that constant.
+So we can dial 'a' to be the max distance we want our nodes to be from the center of the screen, and our nodes will gradually get further apart as the players move apart, but well never go off the screen.</p>
+
+<p>With this, we have translated the two players' positions from player-space to node-space.</p>
 
 
 <h3>
