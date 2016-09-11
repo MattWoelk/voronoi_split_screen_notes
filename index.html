@@ -48,8 +48,8 @@
 <p>Where <code>x</code> is the distance from the <code>M</code> midpoint between the two characters, to one of the players.
 And <code>y</code> is the distance from the center of the screen to the node.</p>
 
-<p>We will keep the angle the same, and so we'll only deal with distance.
-We need to keep the node on the screen, so we need to translate a distance (which could go to infinite) to a finite range, and we want to get there gradually. The following function should do the job:</p>
+<p>We will keep the angle the same, and so we'll only deal with the distance, <code>y</code>.
+We need to keep the node on the screen, so we need to translate a distance (which could go to infinity) to a finite range, and we want to get there gradually. The following function should do the job:</p>
 
 <img src="images/atan_graph.gif">
 
@@ -68,7 +68,7 @@ So we can dial <code>a</code> to be the max distance we want our nodes to be fro
 
 <p>Now we need to actually split the screen.</p>
 
-<p>Without going into too much detail, I made in unreal shader that, for each pixel, checks to see which player it is closer to, and renders that player's view. This is a simplified version of it where [x1, y1], [x2, y2] are the coordinates of the nodes in screen-space.</p>
+<p>Without going into too much detail, I made an unreal shader that, for each pixel, checks to see which player it is closer to, and renders that player's view. This is a simplified version of it where [x1, y1], [x2, y2] are the coordinates of the nodes in screen-space.</p>
 
 <img src="images/material_no_line.PNG">
 
